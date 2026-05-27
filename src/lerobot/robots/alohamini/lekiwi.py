@@ -247,7 +247,6 @@ class LeKiwi(Robot):
     # @property
     # def is_connected(self) -> bool:
     #     return self.left_bus.is_connected and all(cam.is_connected for cam in self.cameras.values())
-    
     @property
     def is_connected(self) -> bool:
         cams_ok = all(cam.is_connected for cam in self.cameras.values())
@@ -259,6 +258,9 @@ class LeKiwi(Robot):
         self.left_bus.connect()
         if self.right_bus:
             self.right_bus.connect()
+        self.left_bus.disable_torque()
+        if self.right_bus:
+            self.right_bus.disable_torque()
         if not self.is_calibrated and calibrate:
             logger.info(
                 "Mismatch between calibration values in the motor and the calibration file or no calibration file found"
